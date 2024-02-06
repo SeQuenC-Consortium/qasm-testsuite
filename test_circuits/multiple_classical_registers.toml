@@ -1,0 +1,39 @@
+title = "multiple_classical_registers"
+
+description = "measure all qubits with a single classical register"
+
+qasm2 = """OPENQASM 2.0;
+include "qelib1.inc";
+qreg q[4];
+creg meas_a[3];
+creg meas_b[1];
+
+x q[0];
+x q[3];
+
+measure q[0] -> meas_a[0];
+measure q[1] -> meas_a[1];
+measure q[2] -> meas_a[2];
+measure q[3] -> meas_b[0];
+"""
+
+qasm3 = """OPENQASM 3;
+include "stdgates.inc";
+bit[3] meas_a;
+bit[1] meas_b;
+qubit[4] q;
+
+x q[0];
+x q[3];
+
+meas_a[0] = measure q[0];
+meas_a[1] = measure q[1];
+meas_a[2] = measure q[2];
+meas_b[0] = measure q[3];
+"""
+
+cutoff = 0.9
+
+result = [
+    "1 001"
+]

@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "qasm-testsuite"
+version = "0.1.0"
+description = "A testsuite to test the spec compliance of various tools allowing execution of quantum circuits using qasm."
+authors = ["University of Stuttgart - IAAS"]
+license = "Apache-2.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pytest = "^8.0.0"
+requests = "^2.31.0"
+hypothesis = "^6.98.1"
+tomli = "^2.0.1"
+python-dotenv = "^1.0.1"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.1.1"
+qiskit = "^0.46.0"
+qiskit-aer = "^0.13.2"
+qiskit-qasm3-import = "^0.4.1"
+
+[tool.black]
+target-version = ["py37"]
+line-length = 90
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+reverse_relative = true
+group_by_package = true
+honor_noqa = true
+atomic = true
+
+
+[tool.pytest.ini_options]
+pythonpath=[
+    "src",
+]
+testpaths=[
+    "tests",
+]
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

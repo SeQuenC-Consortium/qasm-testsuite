@@ -1,0 +1,35 @@
+title = "measure_all_c"
+
+description = "measure all qubits with a single classical register"
+
+qasm2 = """OPENQASM 2.0;
+include "qelib1.inc";
+qreg q[4];
+creg meas[4];
+
+x q[2];
+
+measure q[0] -> meas[0];
+measure q[1] -> meas[1];
+measure q[2] -> meas[2];
+measure q[3] -> meas[3];
+"""
+
+qasm3 = """OPENQASM 3;
+include "stdgates.inc";
+bit[4] meas;
+qubit[4] q;
+
+x q[2];
+
+meas[0] = measure q[0];
+meas[1] = measure q[1];
+meas[2] = measure q[2];
+meas[3] = measure q[3];
+"""
+
+cutoff = 0.9
+
+result = [
+    "0100"
+]

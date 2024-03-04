@@ -1,0 +1,25 @@
+title = "Oversized classical register"
+
+description = "All unset bits of a classical register should be initialized as 0."
+
+qasm2 = """OPENQASM 2.0;
+include "qelib1.inc";
+qreg q1[1];
+creg c0[4];
+x q1[0];
+measure q1[0] -> c0[0];
+"""
+
+qasm3 = """OPENQASM 3;
+include "stdgates.inc";
+bit[4] c0;
+qubit q1;
+x q1;
+c0[0] = measure q1;
+"""
+
+cutoff = 0.9
+
+result = [
+"0001"
+]

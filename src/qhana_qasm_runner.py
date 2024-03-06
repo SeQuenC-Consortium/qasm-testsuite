@@ -32,7 +32,9 @@ def text_to_data_url(text: str, content_type: str) -> str:
 
 
 def run_circuit(circuit: str) -> Mapping[str, int]:
-    plugin = requests.get(PLUGIN_URL).json()
+    response = requests.get(PLUGIN_URL)
+    response.raise_for_status()
+    plugin = response.json()
 
     if "OPENQASM 2.0;" in circuit:
         if "qasm-2" not in plugin.get("tags", []):

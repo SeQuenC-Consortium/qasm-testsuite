@@ -16,9 +16,9 @@ python-dotenv = "^1.0.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.1.1"
-qiskit = "^0.46.0"
-qiskit-aer = "^0.13.2"
-qiskit-qasm3-import = "^0.4.1"
+qiskit = "^1.0.0"
+qiskit-aer = "^0.13.0"
+qiskit-qasm3-import = "0.4.2"
 
 [tool.black]
 target-version = ["py37"]

@@ -21,6 +21,9 @@ if RUNNER:
     if RUNNER == "qunicorn":
         import qunicorn_qasm_runner
         _runner = qunicorn_qasm_runner.run_circuit
+    if RUNNER == "qmware":
+        import qmware_qasm_runner
+        _runner = qmware_qasm_runner.run_circuit
 
 
 def execute_qasm2_circuit(circuit: str, cutoff: float=0.9) -> Sequence[str]:

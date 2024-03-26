@@ -17,4 +17,7 @@ def test_qasm3_testcases(qasm3_testcase):
     except NotImplementedError:
         skip("Qasm 3 not supported by current circuit runner!")
 
-    assert result == expected_result, f"{title} -- {description}"
+    if qasm3_testcase.get("compare_as_set", False):
+        assert set(result) == set(expected_result), f"{title} -- {description}"
+    else:
+        assert result == expected_result, f"{title} -- {description}"

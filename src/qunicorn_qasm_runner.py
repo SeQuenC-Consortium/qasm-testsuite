@@ -81,7 +81,7 @@ def ensure_binary(result: str, counts_format: str, registers: Optional[list[int]
                 "Number of registers in counts string does not match number of registers from metadata!"
             )
         return " ".join(
-            f"{int(val, 16):b}"[-size:] for val, size in zip(register_counts, registers)
+            f"000{int(val, 16):b}"[-size:] for val, size in zip(register_counts, registers)
         )
     return result
 

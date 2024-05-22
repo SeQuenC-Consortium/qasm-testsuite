@@ -115,7 +115,7 @@ def run_circuit(circuit: str) -> Mapping[str, int]:
     for output in result["results"]:
         if output["resultType"] == "COUNTS":
             counts = output["data"]
-            metadata = output["metadata"]
+            metadata = output["meta"]
             if metadata.get("format") in ("bin", "hex"):
                 counts_format = metadata["format"]
             if counts_format == "hex":

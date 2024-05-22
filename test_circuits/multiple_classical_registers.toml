@@ -8,7 +8,8 @@ qreg q[4];
 creg meas_a[3];
 creg meas_b[1];
 
-x q[0];
+x q[1];
+x q[2];
 x q[3];
 
 measure q[0] -> meas_a[0];
@@ -23,7 +24,8 @@ bit[3] meas_a;
 bit[1] meas_b;
 qubit[4] q;
 
-x q[0];
+x q[1];
+x q[2];
 x q[3];
 
 meas_a[0] = measure q[0];
@@ -35,5 +37,5 @@ meas_b[0] = measure q[3];
 cutoff = 0.9
 
 result = [
-    "1 001"
+    "1 110"
 ]

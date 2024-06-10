@@ -15,6 +15,9 @@ if RUNNER:
     if RUNNER == "qiskit":
         import qiskit_qasm_runner
         _runner = qiskit_qasm_runner.run_circuit3
+    if RUNNER == "qiskit-aer":
+        import qiskit_aer_qasm_runner
+        _runner = qiskit_aer_qasm_runner.run_circuit3
     if RUNNER == "qhana":
         import qhana_qasm_runner
         _runner = qhana_qasm_runner.run_circuit

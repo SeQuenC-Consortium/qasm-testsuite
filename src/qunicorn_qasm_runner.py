@@ -1,6 +1,6 @@
 from os import environ
 from json import loads
-from typing import Mapping
+from typing import Mapping, Optional
 from urllib.parse import urljoin
 from time import sleep
 
@@ -69,9 +69,20 @@ def run_job(deployment_id: int) -> int:
     return response.json()["id"]
 
 
-def ensure_binary(result: str) -> str:
-    if result and result.startswith("0x"):
-        return f"{int(result, 16):b}"
+def ensure_binary(result: str, counts_format: str, registers: Optional[list[int]]) -> str:
+    if counts_format == "bin":
+        return result  # result is already binary
+    elif counts_format == "hex":
+        if registers is None:
+            raise ValueError("Parameter registers is required for hex values!")
+        register_counts = result.split()
+        if len(register_counts) != len(registers):
+            raise ValueError(
+                "Number of registers in counts string does not match number of registers from metadata!"
+            )
+        return " ".join(
+            f"000{int(val, 16):b}"[-size:] for val, size in zip(register_counts, registers)
+        )
     return result
 
 
@@ -99,13 +110,22 @@ def run_circuit(circuit: str) -> Mapping[str, int]:
         raise ValueError(f"Qunicorn job timed out producing a result! ({result_url})")
 
     counts = None
+    registers = None
+    counts_format = "bin"
     for output in result["results"]:
         if output["resultType"] == "COUNTS":
-            counts = output["metaData"]["data"]["counts"]
+            counts = output["data"]
+            metadata = output["meta"]
+            if metadata.get("format") in ("bin", "hex"):
+                counts_format = metadata["format"]
+            if counts_format == "hex":
+                registers = [r["size"] for r in metadata["registers"]]
             break
 
     if counts:
-        counts = {ensure_binary(k): v for k, v in counts.items()}
+        counts = {
+            ensure_binary(k, counts_format, registers): v for k, v in counts.items()
+        }
         if set(counts.keys()) == {""}:
             return {}  # no counts
 

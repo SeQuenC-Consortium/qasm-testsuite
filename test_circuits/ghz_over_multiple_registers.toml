@@ -1,0 +1,44 @@
+title = "GHZ state over multiple registers"
+
+description = "Register results must be correlated (both registers should always have the same value)!"
+
+qasm2 = """OPENQASM 2.0;
+include "qelib1.inc";
+qreg q1[1];
+qreg q2[1];
+qreg q3[1];
+creg a[1];
+creg b[1];
+creg c[1];
+h q1[0];
+cx q1[0],q2[0];
+cx q2[0],q3[0];
+measure q1[0] -> a[0];
+measure q2[0] -> b[0];
+measure q3[0] -> c[0];
+"""
+
+qasm3 = """OPENQASM 3.0;
+include "stdgates.inc";
+bit[1] a;
+bit[1] b;
+bit[1] c;
+qubit[1] q1;
+qubit[1] q2;
+qubit[1] q3;
+h q1[0];
+cx q1[0], q2[0];
+cx q2[0], q3[0];
+a[0] = measure q1[0];
+b[0] = measure q2[0];
+c[0] = measure q3[0];
+"""
+
+cutoff = 0.9
+
+compare_as_set = true
+
+result = [
+"1 1 1",
+"0 0 0"
+]

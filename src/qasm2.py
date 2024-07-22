@@ -27,6 +27,9 @@ if RUNNER:
     if RUNNER == "qmware":
         import qmware_qasm_runner
         _runner = qmware_qasm_runner.run_circuit
+    if RUNNER == "qrisp":
+        import qrisp_qasm_runner
+        _runner = qrisp_qasm_runner.run_circuit2
 
 
 def execute_qasm2_circuit(circuit: str, cutoff: float=0.9) -> Sequence[str]:

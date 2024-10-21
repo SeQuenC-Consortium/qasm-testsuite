@@ -1,0 +1,32 @@
+title = "mid circuit measurement"
+
+description = "circuit with a measurement in the middle and at the end"
+
+qasm2 = """OPENQASM 2.0;
+include "qelib1.inc";
+qreg q1[1];
+creg a[2];
+h q1[0];
+measure q1[0] -> a[0];
+x q1[0];
+measure q1[0] -> a[1];
+"""
+
+qasm3 = """OPENQASM 3.0;
+include "stdgates.inc";
+bit[2] a;
+qubit[1] q1;
+h q1[0];
+a[0] = measure q1[0];
+x q1[0];
+a[1] = measure q1[0];
+"""
+
+cutoff = 0.9
+
+compare_as_set = true
+
+result = [
+"10",
+"01"
+]

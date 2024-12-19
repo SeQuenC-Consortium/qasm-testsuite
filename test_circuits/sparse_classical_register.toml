@@ -10,7 +10,7 @@ x q1[0];
 x q1[1];
 x q1[2];
 x q1[3];
-measure q1[2] -> c0[1];
+measure q1[1] -> c0[1];
 measure q1[0] -> c0[3];
 """
 
@@ -22,8 +22,8 @@ x q1[0];
 x q1[1];
 x q1[2];
 x q1[3];
-c0[2] = measure q1[1];
-c0[0] = measure q1[3];
+c0[1] = measure q1[1];
+c0[3] = measure q1[0];
 """
 
 cutoff = 0.9

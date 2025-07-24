@@ -1,4 +1,4 @@
-from typing import Mapping
+from typing import Mapping, Sequence
 from qiskit.exceptions import QiskitError
 from qiskit.qasm2 import loads as loads2
 from qiskit.qasm3 import loads as loads3
@@ -15,6 +15,27 @@ pm = generate_preset_pass_manager(backend=backend, optimization_level=1)
 sampler = Sampler(backend)
 
 
+def split_bitstring(bits: str, partitions: Sequence[int]) -> str:
+    parts = []
+    start = 0
+    for size in partitions:
+        end = start + size
+        if end > len(bits) or start >= len(bits):
+            raise ValueError("Illegal partition. The sum of sizes in a partition must be the length of the bits string!")
+        parts.append(bits[start:end])
+        start = end
+    return " ".join(parts)
+
+
+def get_counts(result):
+    joined_counts = result.join_data().get_counts()
+    reg_sizes = tuple(reversed([r.num_bits for r in result.data.values()]))
+    if len(reg_sizes) > 1:
+        split_counts = {split_bitstring(bits, reg_sizes): count for bits, count in joined_counts.items()}
+        return split_counts
+    return joined_counts
+
+
 def run_circuit2(circuit: str) -> Mapping[str, int]:
     circ = loads2(circuit)
     isa_circuit = pm.run(circ)
@@ -22,7 +43,7 @@ def run_circuit2(circuit: str) -> Mapping[str, int]:
     try:
         if not circ.get_instructions("measure"):
             return {}  # no measurement instructions in circuit
-        return result[0].join_data().get_counts()
+        return get_counts(result[0])
     except QiskitError:
         return {}  # no counts
 
@@ -34,6 +55,6 @@ def run_circuit3(circuit: str) -> Mapping[str, int]:
     try:
         if not circ.get_instructions("measure"):
             return {}  # no measurement instructions in circuit
-        return result[0].join_data().get_counts()
+        return get_counts(result[0])
     except QiskitError:
         return {}  # no counts

@@ -20,11 +20,9 @@ def run_circuit2(circuit: str) -> Mapping[str, int]:
     isa_circuit = pm.run(circ)
     result = sampler.run([isa_circuit]).result()
     try:
-        if result.results and len(result.results[0].header.qubit_labels) == 0:
-            return {}  # no qubits in circuit
         if not circ.get_instructions("measure"):
             return {}  # no measurement instructions in circuit
-        return result.get_counts()
+        return result[0].join_data().get_counts()
     except QiskitError:
         return {}  # no counts
 
@@ -34,10 +32,8 @@ def run_circuit3(circuit: str) -> Mapping[str, int]:
     isa_circuit = pm.run(circ)
     result = sampler.run([isa_circuit]).result()
     try:
-        if result.results and len(result.results[0].header.qubit_labels) == 0:
-            return {}  # no qubits in circuit
         if not circ.get_instructions("measure"):
             return {}  # no measurement instructions in circuit
-        return result.get_counts()
+        return result[0].join_data().get_counts()
     except QiskitError:
         return {}  # no counts

@@ -2,14 +2,12 @@ from typing import Mapping, Sequence
 from qiskit.exceptions import QiskitError
 from qiskit.qasm2 import loads as loads2
 from qiskit.qasm3 import loads as loads3
-from qiskit.providers.fake_provider import GenericBackendV2
 from qiskit_aer import AerSimulator
 from qiskit_ibm_runtime import SamplerV2 as Sampler
 from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
 
 
-backend = backend = GenericBackendV2(num_qubits=25)
-# backend = AerSimulator()
+backend = AerSimulator()
 pm = generate_preset_pass_manager(backend=backend, optimization_level=1)
 
 sampler = Sampler(backend)

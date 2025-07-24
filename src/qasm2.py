@@ -18,6 +18,9 @@ if RUNNER:
     if RUNNER == "qiskit-aer":
         import qiskit_aer_qasm_runner
         _runner = qiskit_aer_qasm_runner.run_circuit2
+    if RUNNER == "qiskit-sampler":
+        import qiskit_sampler_runner
+        _runner = qiskit_sampler_runner.run_circuit2
     if RUNNER == "qhana":
         import qhana_qasm_runner
         _runner = qhana_qasm_runner.run_circuit

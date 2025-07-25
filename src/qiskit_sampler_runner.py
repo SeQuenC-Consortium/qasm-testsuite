@@ -8,6 +8,10 @@ from qiskit_aer import AerSimulator
 from qiskit_ibm_runtime import SamplerV2 as Sampler
 from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
 
+# NOTE: Importing and using `GenericBackendV2` from `qiskit.providers.fake_provider`
+#       has been observed to result in significantly higher runtime compared to the `AerSimulator`.
+#       Use only when simulating hardware-specific behavior is required.
+# from qiskit.providers.fake_provider import GenericBackendV2
 
 backend = AerSimulator()
 pm = generate_preset_pass_manager(backend=backend, optimization_level=1)

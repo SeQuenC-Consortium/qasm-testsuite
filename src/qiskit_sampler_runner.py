@@ -1,4 +1,6 @@
 from typing import Mapping, Sequence
+from collections import Counter
+from numpy import column_stack
 from qiskit.exceptions import QiskitError
 from qiskit.qasm2 import loads as loads2
 from qiskit.qasm3 import loads as loads3
@@ -25,13 +27,25 @@ def split_bitstring(bits: str, partitions: Sequence[int]) -> str:
     return " ".join(parts)
 
 
-def get_counts(result):
+def get_counts_alt(result):
     joined_counts = result.join_data().get_counts()
     reg_sizes = tuple(reversed([r.num_bits for r in result.data.values()]))
     if len(reg_sizes) > 1:
         split_counts = {split_bitstring(bits, reg_sizes): count for bits, count in joined_counts.items()}
         return split_counts
     return joined_counts
+
+
+def bits_to_str(bits: Sequence[int], size: int) -> str:
+    number = int.from_bytes(bits, "big")
+    return f"{number:0>{size}b}"
+
+
+def get_counts(result):
+    reg_sizes = tuple(reversed([r.num_bits for r in result.data.values()]))
+    registers = column_stack([r.array for r in result.data.values()][::-1])
+    reference_counts = Counter(" ".join(bits_to_str(reg, size) for reg, size in zip(measurement, reg_sizes)) for measurement in registers)
+    return reference_counts
 
 
 def run_circuit2(circuit: str) -> Mapping[str, int]:

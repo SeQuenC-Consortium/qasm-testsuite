@@ -5,6 +5,7 @@ description = "A testsuite to test the spec compliance of various tools allowing
 authors = ["University of Stuttgart - IAAS"]
 license = "Apache-2.0"
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"

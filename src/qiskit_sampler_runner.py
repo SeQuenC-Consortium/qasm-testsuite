@@ -47,8 +47,12 @@ def bits_to_str(bits: Sequence[int], size: int) -> str:
 
 def get_counts(result):
     reg_sizes = tuple(reversed([r.num_bits for r in result.data.values()]))
+
+    assert len(reg_sizes) > 0, "circuits with a measurement should have at least one result register"
+
     registers = column_stack([r.array for r in result.data.values()][::-1])
-    reference_counts = Counter(" ".join(bits_to_str(reg, size) for reg, size in zip(measurement, reg_sizes)) for measurement in registers)
+    reference_counts = Counter(
+        " ".join(bits_to_str(reg, size) for reg, size in zip(measurement, reg_sizes)) for measurement in registers)
     return reference_counts
 
 

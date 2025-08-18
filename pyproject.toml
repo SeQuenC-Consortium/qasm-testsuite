@@ -5,6 +5,7 @@ description = "A testsuite to test the spec compliance of various tools allowing
 authors = ["University of Stuttgart - IAAS"]
 license = "Apache-2.0"
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -16,10 +17,11 @@ python-dotenv = "^1.0.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.1.1"
-qiskit = "^1.0.0"
-qiskit-aer = "^0.13.0"
-qiskit-qasm3-import = "0.4.2"
-qrisp = "^0.4.9"
+qiskit = "^2.0.0"
+qiskit-aer = "^0.17.1"
+qiskit-qasm3-import = "0.6.0"
+qrisp = "^0.7.7"
+qiskit-ibm-runtime = "^0.40.1"
 
 [tool.black]
 target-version = ["py37"]
